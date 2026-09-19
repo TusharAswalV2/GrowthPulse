@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrowthPulse — The Modern Web Assistant & Growth Studio for Instagram</title>
+  <meta name="description" content="Discover niche communities, track live follower momentum curves, benchmark engagement rates, and automate authentic creator reach safely on desktop.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/icon32.png">
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #070A10;
+      --bg-card: rgba(15, 23, 42, 0.75);
+      --bg-card-hover: rgba(30, 41, 59, 0.85);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(236, 72, 153, 0.4);
+      --pink: #EC4899;
+      --purple: #8B5CF6;
+      --cyan: #38BDF8;
+      --emerald: #34D399;
+      --gradient-accent: linear-gradient(135deg, #EC4899 0%, #8B5CF6 100%);
+      --gradient-cyan: linear-gradient(135deg, #38BDF8 0%, #3B82F6 100%);
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-subtle: #64748B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(236, 72, 153, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.14) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(56, 189, 248, 0.08) 0%, transparent 60%);
+      background-attachment: fixed;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================================================
+       NAVBAR
+       ========================================================================== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(7, 10, 16, 0.8);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all 0.3s ease;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      box-shadow: 0 4px 14px rgba(236, 72, 153, 0.35);
+    }
+    .brand-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .nav-link {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-link:hover {
+      color: #FFF;
+    }
+    .btn-nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gradient-accent);
+      color: #FFF;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 30px;
+      box-shadow: 0 4px 20px rgba(236, 72, 153, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 26px rgba(236, 72, 153, 0.5);
+    }
+
+    /* Mobile menu button */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       HERO SECTION
+       ========================================================================== */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+      border: 1px solid rgba(236, 72, 153, 0.35);
+      color: #F472B6;
+      margin-bottom: 24px;
+    }
+    .hero-badge .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 10px #10B981;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .hero-title {
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -1.8px;
+      max-width: 900px;
+      margin: 0 auto 20px;
+    }
+    .hero-title span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 36px;
+      font-weight: 400;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .btn-hero-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gradient-accent);
+      color: #FFF;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 16px 36px;
+      border-radius: 40px;
+      box-shadow: 0 6px 30px rgba(236, 72, 153, 0.45);
+      transition: all 0.2s ease;
+    }
+    .btn-hero-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 38px rgba(236, 72, 153, 0.6);
+    }
+    .btn-hero-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 15px 30px;
+      border-radius: 40px;
+      transition: all 0.2s ease;
+    }
+    .btn-hero-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-trust-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      color: var(--text-subtle);
+      font-size: 13px;
+      font-weight: 600;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .trust-item svg {
+      color: var(--emerald);
+    }
+
+    /* Hero Showcase Frame */
+    .hero-preview-wrapper {
+      position: relative;
+      max-width: 1020px;
+      margin: 0 auto;
+    }
+    .hero-preview-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, rgba(139, 92, 246, 0.2) 50%, transparent 80%);
+      filter: blur(60px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .hero-preview-card {
+      position: relative;
+      z-index: 1;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 10px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+    .hero-preview-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      display: block;
+    }
+
+    /* ==========================================================================
+       FEATURE SHOWCASE (TABS)
+       ========================================================================== */
+    .features-section {
+      padding: 100px 0 80px;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .section-tag {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section-title {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .section-title span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 17px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .feature-tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .feature-tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+    .feature-tab-btn.active {
+      background: var(--gradient-accent);
+      color: #FFF;
+      border-color: transparent;
+      box-shadow: 0 4px 18px rgba(236, 72, 153, 0.35);
+    }
+
+    .feature-tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    .feature-tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feature-display-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(16px);
+    }
+    .feature-display-left {
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .feature-tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #F472B6;
+      background: rgba(236, 72, 153, 0.12);
+      border: 1px solid rgba(236, 72, 153, 0.25);
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+    .feature-card-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      line-height: 1.25;
+      margin-bottom: 16px;
+    }
+    .feature-card-desc {
+      color: var(--text-muted);
+      font-size: 16px;
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+    .feature-bullet-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .feature-bullet {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: #E2E8F0;
+    }
+    .feature-bullet svg {
+      color: var(--emerald);
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .feature-display-right {
+      background: #030712;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-left: 1px solid var(--border-subtle);
+      padding: 24px;
+    }
+    .feature-display-right img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ==========================================================================
+       LIVE INTERACTIVE ER CALCULATOR WIDGET
+       ========================================================================== */
+    .calculator-section {
+      padding: 80px 0;
+    }
+    .calc-container {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%);
+      border: 1px solid rgba(236, 72, 153, 0.25);
+      border-radius: 24px;
+      padding: 56px 48px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .calc-left h3 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 14px;
+    }
+    .calc-left p {
+      color: var(--text-muted);
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .calc-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .calc-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .calc-field label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .calc-input {
+      background: rgba(2, 6, 23, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: #FFF;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .calc-input:focus {
+      border-color: var(--pink);
+    }
+    .calc-right {
+      background: rgba(2, 6, 23, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 36px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .calc-score-label {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .calc-score-value {
+      font-size: 64px;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .calc-badge {
+      display: inline-flex;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      background: rgba(52, 211, 153, 0.15);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      color: #34D399;
+      margin-bottom: 20px;
+    }
+    .calc-formula-note {
+      font-size: 12px;
+      color: var(--text-subtle);
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       COMPETITOR COMPARISON (VS INSSIST)
+       ========================================================================== */
+    .comparison-section {
+      padding: 80px 0;
+    }
+    .comparison-table-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      overflow-x: auto;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+    }
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .comp-table th, .comp-table td {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 15px;
+    }
+    .comp-table th {
+      background: rgba(2, 6, 23, 0.6);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+    .comp-table th.highlight {
+      color: #F472B6;
+      background: rgba(236, 72, 153, 0.08);
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    .comp-table td.highlight {
+      background: rgba(236, 72, 153, 0.04);
+      font-weight: 600;
+      color: #FFF;
+    }
+    .tag-yes {
+      color: var(--emerald);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tag-no {
+      color: #EF4444;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ==========================================================================
+       SAFETY & ARCHITECTURE
+       ========================================================================== */
+    .safety-section {
+      padding: 80px 0;
+    }
+    .safety-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .safety-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 32px 28px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .safety-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(236, 72, 153, 0.3);
+    }
+    .safety-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      color: #F472B6;
+    }
+    .safety-card h4 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .safety-card p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       FAQ ACCORDION
+       ========================================================================== */
+    .faq-section {
+      padding: 80px 0;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .faq-item:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .faq-question {
+      padding: 20px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+    }
+    .faq-chevron {
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      display: none;
+      padding: 0 24px 20px 24px;
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    /* ==========================================================================
+       BOTTOM CTA BANNER
+       ========================================================================== */
+    .cta-banner-wrap {
+      padding: 80px 0 100px;
+    }
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(139, 92, 246, 0.2) 100%);
+      border: 1px solid rgba(236, 72, 153, 0.35);
+      border-radius: 28px;
+      padding: 64px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner h2 {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      margin-bottom: 16px;
+    }
+    .cta-banner p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto 36px;
+    }
+
+    /* ==========================================================================
+       FOOTER
+       ========================================================================== */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 60px 0 40px;
+      background: #04060A;
+      font-size: 14px;
+      color: var(--text-subtle);
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-link {
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .footer-link:hover {
+      color: #FFF;
+    }
+    .footer-disclaimer {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #475569;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      padding-top: 24px;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .hero-title { font-size: 40px; letter-spacing: -1px; }
+      .feature-display-card { grid-template-columns: 1fr; }
+      .feature-display-left { padding: 36px 24px; }
+      .calc-container { grid-template-columns: 1fr; padding: 36px 24px; }
+      .safety-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .menu-toggle { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="brand">
+        <img src="images/icon128.png" alt="GrowthPulse Logo">
+        <span class="brand-title">GrowthPulse</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#calculator" class="nav-link">ER Calculator</a>
+        <a href="#comparison" class="nav-link">Compare INSSIST</a>
+        <a href="#safety" class="nav-link">Safety Standards</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        <a href="legal.html" class="nav-link">Privacy & Legal</a>
+      </nav>
+
+      <a href="https://chrome.google.com/webstore" class="btn-nav-cta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+        </svg>
+        Add to Chrome — Free
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        v1.1.4 Web Store Release • 100% Client-Side
+      </div>
+
+      <h1 class="hero-title">
+        Put Your Instagram Audience Growth on <span>Autopilot</span>.
+      </h1>
+
+      <p class="hero-sub">
+        The lightweight creator studio and desktop web assistant for Instagram. Automate authentic niche discovery, track live follower momentum curves, and benchmark your engagement rates—without the lag.
+      </p>
+
+      <div class="hero-actions">
+        <a href="https://chrome.google.com/webstore" class="btn-hero-primary">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          Add to Chrome — It's Free
+        </a>
+        <a href="#features" class="btn-hero-secondary">
+          Explore Features ↓
+        </a>
+      </div>
+
+      <div class="hero-trust-strip">
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          No Password Required
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Direct Desktop Web Execution
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Safe Humanized Gaussian Delays
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          2,000 Free Starter Actions
+        </div>
+      </div>
+
+      <!-- Hero Visual Preview -->
+      <div class="hero-preview-wrapper">
+        <div class="hero-preview-glow"></div>
+        <div class="hero-preview-card">
+          <img src="images/screenshot_1_engagement.png" alt="GrowthPulse Autopilot Engine Dashboard">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES EXPLORER -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Feature Suite</span>
+        <h2 class="section-title">Built for Creators Who Value <span>Real Results</span>.</h2>
+        <p class="section-sub">Everything you need to grow your account, benchmark performance, and save hours every single week.</p>
+      </div>
+
+      <!-- Feature Tabs Buttons -->
+      <div class="feature-tabs-nav">
+        <button class="feature-tab-btn active" onclick="showTab(1)">
+          ⚡ Organic Autopilot
+        </button>
+        <button class="feature-tab-btn" onclick="showTab(2)">
+          📈 Growth Analytics Studio
+        </button>
+        <button class="feature-tab-btn" onclick="showTab(3)">
+          🧰 Creator Toolkit & ER
+        </button>
+        <button class="feature-tab-btn" onclick="showTab(4)">
+          🛡️ Maximum Safety Engine
+        </button>
+      </div>
+
+      <!-- TAB 1: Autopilot -->
+      <div id="tab-1" class="feature-tab-content active">
+        <div class="feature-display-card">
+          <div class="feature-display-left">
+            <div class="feature-tag-pill">Smart Discovery</div>
+            <h3 class="feature-card-title">Connect with High-Affinity Creator Communities.</h3>
+            <p class="feature-card-desc">
+              GrowthPulse automatically identifies engaged followers and active likers around your favorite creators. It filters out inactive accounts and engages naturally during daytime hours.
+            </p>
+            <div class="feature-bullet-list">
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Target Seed Sources:</strong> Target audiences of top creators in your niche.</span>
+              </div>
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Quality Profile Filtering:</strong> Bypasses private or ghost profiles to maximize follow-back ratios.</span>
+              </div>
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Zero Password Handling:</strong> Runs completely within your active desktop browser session.</span>
+              </div>
+            </div>
+          </div>
+          <div class="feature-display-right">
+            <img src="images/screenshot_1_engagement.png" alt="GrowthPulse Organic Autopilot">
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Analytics -->
+      <div id="tab-2" class="feature-tab-content">
+        <div class="feature-display-card">
+          <div class="feature-display-left">
+            <div class="feature-tag-pill">Live Telemetry</div>
+            <h3 class="feature-card-title">Follower Momentum Curves at Your Fingertips.</h3>
+            <p class="feature-card-desc">
+              Ditch messy spreadsheets. Visualize your net follower trajectory across 1-Month, 6-Week, and 1-Year horizons with smooth SVG curves rendered live from your local stats.
+            </p>
+            <div class="feature-bullet-list">
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Trajectory Telemetry:</strong> Track daily follower velocity and momentum changes.</span>
+              </div>
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Account Health Balance:</strong> Diagnostic balance metrics ensure healthy follow-to-like ratios.</span>
+              </div>
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>100% Private:</strong> Analytics stay stored locally on your device; never sent to third-party ad brokers.</span>
+              </div>
+            </div>
+          </div>
+          <div class="feature-display-right">
+            <img src="images/screenshot_2_analytics.png" alt="Growth Studio Analytics">
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Utilities & Mobile Simulator -->
+      <div id="tab-3" class="feature-tab-content">
+        <div class="feature-display-card">
+          <div class="feature-display-left">
+            <div class="feature-tag-pill">Creator Utilities</div>
+            <h3 class="feature-card-title">Everything Needed to Pitch Brands & Post Faster.</h3>
+            <p class="feature-card-desc">
+              Calculate brand-ready Engagement Rate (ER) scores, launch a distraction-free mobile smartphone workspace on your monitor, and 1-click copy curated hashtag sets.
+            </p>
+            <div class="feature-bullet-list">
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Engagement Rate Calculator:</strong> Instant ER rating benchmark to show sponsors.</span>
+              </div>
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Mobile Creator Simulator:</strong> Launches Instagram in a mobile window with touch emulation.</span>
+              </div>
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Hashtag Vault:</strong> Curated high-impact hashtags for Tech, Photography, Fitness, and Lifestyle.</span>
+              </div>
+            </div>
+          </div>
+          <div class="feature-display-right">
+            <img src="images/screenshot_3_tools.png" alt="Creator Utilities Toolkit">
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: Safety -->
+      <div id="tab-4" class="feature-tab-content">
+        <div class="feature-display-card">
+          <div class="feature-display-left">
+            <div class="feature-tag-pill">Account Safety</div>
+            <h3 class="feature-card-title">Humanized Gaussian Delays & Organic Rest Cycles.</h3>
+            <p class="feature-card-desc">
+              GrowthPulse never acts like a robotic bot. Built with randomized sleep intervals (6–14s), automated nighttime sleep locks (23:00–08:00), and unannounced daytime rest hours to protect account standing.
+            </p>
+            <div class="feature-bullet-list">
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Gaussian Distribution:</strong> Unpredictable timing mimics natural human scrolling.</span>
+              </div>
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Conservative Ramping:</strong> Progressive speed increments (+20/day) prevent velocity spikes.</span>
+              </div>
+              <div class="feature-bullet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span><strong>Live Diagnostic Logs:</strong> Complete on-device transparency with 1-click log exports.</span>
+              </div>
+            </div>
+          </div>
+          <div class="feature-display-right">
+            <img src="images/screenshot_4_safety.png" alt="Maximum Safety Engine">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE INTERACTIVE ER CALCULATOR WIDGET -->
+  <section id="calculator" class="calculator-section">
+    <div class="container">
+      <div class="calc-container">
+        <div class="calc-left">
+          <span class="section-tag">Interactive Tool</span>
+          <h3>Benchmark Your True Engagement Rate</h3>
+          <p>
+            Sponsors and brand partners evaluate your Engagement Rate (ER) before negotiating rates. Test your metrics live below:
+          </p>
+          <div class="calc-input-group">
+            <div class="calc-field">
+              <label>Average Likes Per Post</label>
+              <input type="number" id="calc-likes" class="calc-input" value="450" oninput="calculateER()">
+            </div>
+            <div class="calc-field">
+              <label>Average Comments Per Post</label>
+              <input type="number" id="calc-comments" class="calc-input" value="32" oninput="calculateER()">
+            </div>
+            <div class="calc-field">
+              <label>Total Followers</label>
+              <input type="number" id="calc-followers" class="calc-input" value="10000" oninput="calculateER()">
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-right">
+          <div class="calc-score-label">Calculated Engagement Rate</div>
+          <div id="calc-score" class="calc-score-value">4.82%</div>
+          <div id="calc-badge" class="calc-badge">⭐ Good (Brand Deal Ready)</div>
+          <p class="calc-formula-note">
+            Standard Industry Formula: <code>[(Likes + Comments) ÷ Followers] × 100</code><br>
+            A rating above 3.5% indicates high audience loyalty and sponsorship value.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETITOR COMPARISON: GROWTHPULSE VS INSSIST -->
+  <section id="comparison" class="comparison-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Unbiased Comparison</span>
+        <h2 class="section-title">Why Creators Choose <span>GrowthPulse Over INSSIST</span>.</h2>
+        <p class="section-sub">A transparent comparison of architecture, resource footprint, safety, and creator features.</p>
+      </div>
+
+      <div class="comparison-table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Feature / Capability</th>
+              <th class="highlight">GrowthPulse (v1.1.4)</th>
+              <th>INSSIST & Legacy Extensions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Execution Model</strong></td>
+              <td class="highlight"><span class="tag-yes">✓ Native Web Background (MV3)</span></td>
+              <td>Heavy Iframe Phone Emulator</td>
+            </tr>
+            <tr>
+              <td><strong>Memory & CPU Footprint</strong></td>
+              <td class="highlight"><span class="tag-yes">✓ Ultra-Lightweight (&lt; 35MB)</span></td>
+              <td>High (Slows down browser tabs)</td>
+            </tr>
+            <tr>
+              <td><strong>Autonomous Audience Discovery</strong></td>
+              <td class="highlight"><span class="tag-yes">✓ Built-In (Niche Creator Harvesting)</span></td>
+              <td><span class="tag-no">✗ None (Manual Browsing Only)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Interactive Follower Momentum Curves</strong></td>
+              <td class="highlight"><span class="tag-yes">✓ Built-In (1M, 6W, 1Y Curves)</span></td>
+              <td><span class="tag-no">✗ Limited / Third-party paid</span></td>
+            </tr>
+            <tr>
+              <td><strong>Engagement Rate (ER) Benchmark</strong></td>
+              <td class="highlight"><span class="tag-yes">✓ Built-In Creator Utility</span></td>
+              <td><span class="tag-no">✗ Not Included</span></td>
+            </tr>
+            <tr>
+              <td><strong>Humanized Safety Delays</strong></td>
+              <td class="highlight"><span class="tag-yes">✓ Box-Muller Gaussian Distribution</span></td>
+              <td>Fixed / Uniform Delays</td>
+            </tr>
+            <tr>
+              <td><strong>Account Credentials Safety</strong></td>
+              <td class="highlight"><span class="tag-yes">✓ Zero Password Access (100% Client-Side)</span></td>
+              <td><span class="tag-yes">✓ Client-Side</span></td>
+            </tr>
+            <tr>
+              <td><strong>Free Tier Allowance</strong></td>
+              <td class="highlight"><span class="tag-yes">✓ 2,000 Free Lifetime Actions + Quota</span></td>
+              <td>Strict 3-day time limit</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAFETY STANDARDS (3 PILLARS) -->
+  <section id="safety" class="safety-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Enterprise Security</span>
+        <h2 class="section-title">Zero Risk to Your <span>Account Standing</span>.</h2>
+        <p class="section-sub">We engineered GrowthPulse with conservative boundaries because your creator reputation is everything.</p>
+      </div>
+
+      <div class="safety-grid">
+        <div class="safety-card">
+          <div class="safety-icon">🔒</div>
+          <h4>No Passwords Ever</h4>
+          <p>GrowthPulse never asks for, captures, or transmits your Instagram password. It operates exclusively within your active, authenticated browser tab.</p>
+        </div>
+        <div class="safety-card">
+          <div class="safety-icon">🛡️</div>
+          <h4>Human Pacing & Rest Cycles</h4>
+          <p>Enforces randomized 6–14s delays between actions, daytime organic rest hours, and strict nighttime sleep cycles (23:00 to 08:00).</p>
+        </div>
+        <div class="safety-card">
+          <div class="safety-icon">📊</div>
+          <h4>100% Local On-Device Storage</h4>
+          <p>Your target creators, analytics history, and configuration are kept strictly on your local computer via Chrome storage—never sold or tracked.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section id="faq" class="faq-section">
+    <div class="section-header">
+      <span class="section-tag">Got Questions?</span>
+      <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+    </div>
+
+    <div class="faq-item open">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>How does GrowthPulse protect my account from blocks?</span>
+        <span class="faq-chevron">▼</span>
+      </div>
+      <div class="faq-answer">
+        GrowthPulse uses a multi-layered safety architecture: randomized delays (6–14 seconds) based on natural Gaussian curves, organic daytime rest hours (~25% of active hours), an automatic sleep window between 23:00 and 08:00, and conservative daily speed ramp-ups (+20 actions/day). It also features an instant circuit-breaker that halts immediately if Instagram returns any challenge.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Do I need to share my Instagram password?</span>
+        <span class="faq-chevron">▼</span>
+      </div>
+      <div class="faq-answer">
+        No! GrowthPulse never asks for or handles your password. It runs directly inside your Google Chrome browser using your existing, authenticated Instagram web session.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>How is GrowthPulse different from INSSIST?</span>
+        <span class="faq-chevron">▼</span>
+      </div>
+      <div class="faq-answer">
+        While INSSIST runs a heavy, simulated mobile phone iframe inside Chrome (which consumes large amounts of CPU and RAM), GrowthPulse runs as a lightweight, background-native extension. GrowthPulse also adds autonomous niche audience discovery, interactive follower momentum curves, and an engagement rate calculator that INSSIST does not provide.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Can I use GrowthPulse on multiple Instagram accounts?</span>
+        <span class="faq-chevron">▼</span>
+      </div>
+      <div class="faq-answer">
+        Yes! GrowthPulse automatically detects whichever Instagram profile is currently active in your browser, maintaining separate metrics, custom target sources, and activity quotas per account.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Is there a free plan available?</span>
+        <span class="faq-chevron">▼</span>
+      </div>
+      <div class="faq-answer">
+        Yes. Every new user receives a generous starter allowance of 2,000 free actions to test the discovery engine and analytics studio, with no credit card required.
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA BANNER -->
+  <section class="cta-banner-wrap">
+    <div class="container">
+      <div class="cta-banner">
+        <h2>Ready to Put Your Creator Reach on Autopilot?</h2>
+        <p>Join thousands of creators growing authentic, high-affinity Instagram audiences safely from desktop.</p>
+        <a href="https://chrome.google.com/webstore" class="btn-hero-primary">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          Add GrowthPulse to Chrome — Free
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="brand">
+          <img src="images/icon128.png" alt="GrowthPulse Logo" style="width:28px; height:28px; border-radius:6px;">
+          <span class="brand-title" style="font-size:17px;">GrowthPulse</span>
+        </div>
+        <div class="footer-links">
+          <a href="#features" class="footer-link">Features</a>
+          <a href="#calculator" class="footer-link">ER Calculator</a>
+          <a href="#comparison" class="footer-link">Compare INSSIST</a>
+          <a href="legal.html" class="footer-link">Privacy Policy & Terms</a>
+          <a href="mailto:koalainnocent@gmail.com" class="footer-link">Support Contact</a>
+        </div>
+      </div>
+      <div class="footer-disclaimer">
+        GrowthPulse is an independent productivity extension and is not affiliated with, endorsed by, or sponsored by Instagram, Meta Platforms, Inc., or INSSIST. Instagram™ is a registered trademark of Meta Platforms, Inc. INSSIST™ is a trademark of its respective owner. All product names, logos, and brands are property of their respective holders.<br><br>
+        &copy; 2026 GrowthPulse. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- INTERACTIVE CLIENT JAVASCRIPT -->
+  <script>
+    // Tab Switcher
+    function showTab(index) {
+      document.querySelectorAll('.feature-tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i + 1 === index);
+      });
+      document.querySelectorAll('.feature-tab-content').forEach((content, i) => {
+        content.classList.toggle('active', i + 1 === index);
+      });
+    }
+
+    // Live ER Calculator
+    function calculateER() {
+      const likes = parseFloat(document.getElementById('calc-likes').value) || 0;
+      const comments = parseFloat(document.getElementById('calc-comments').value) || 0;
+      const followers = parseFloat(document.getElementById('calc-followers').value) || 1;
+
+      if (followers <= 0) return;
+
+      const er = ((likes + comments) / followers) * 100;
+      const scoreElement = document.getElementById('calc-score');
+      const badgeElement = document.getElementById('calc-badge');
+
+      scoreElement.textContent = er.toFixed(2) + '%';
+
+      if (er >= 6.0) {
+        badgeElement.textContent = '🚀 Viral / Top Tier (Highly Coveted)';
+        badgeElement.style.color = '#EC4899';
+        badgeElement.style.borderColor = 'rgba(236, 72, 153, 0.4)';
+        badgeElement.style.background = 'rgba(236, 72, 153, 0.15)';
+      } else if (er >= 3.5) {
+        badgeElement.textContent = '⭐ Good (Brand Deal Ready)';
+        badgeElement.style.color = '#34D399';
+        badgeElement.style.borderColor = 'rgba(52, 211, 153, 0.4)';
+        badgeElement.style.background = 'rgba(52, 211, 153, 0.15)';
+      } else if (er >= 1.5) {
+        badgeElement.textContent = '👍 Average Performance';
+        badgeElement.style.color = '#38BDF8';
+        badgeElement.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+        badgeElement.style.background = 'rgba(56, 189, 248, 0.15)';
+      } else {
+        badgeElement.textContent = '⚠️ Needs Optimization';
+        badgeElement.style.color = '#F59E0B';
+        badgeElement.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+        badgeElement.style.background = 'rgba(245, 158, 11, 0.15)';
+      }
+    }
+
+    // FAQ Accordion Toggle
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      item.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
